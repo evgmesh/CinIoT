@@ -6,7 +6,6 @@
 
 #define FILENAME "txt10.txt"
 #define LEN 20
-#define RESULT printf("Average of %.0f numbers is: %.2f\n", linesSpec, sum/(linesSpec));
 
 int read_input(char *str, FILE *fp, float *num);
 
@@ -24,9 +23,7 @@ int main(void)
     else{
         read_input(str,txt10, &linesSpec);
         while(!feof(txt10)) {
-            int ret = read_input(str,txt10, &value);
-            if(ret == 1) {
-                // printf("Read %.2f\n", value);
+            if(read_input(str,txt10, &value) == 1) {
                 sum += value;
                 linesRead++;
             }
@@ -42,10 +39,9 @@ int main(void)
 }
 int read_input(char *str, FILE *fp, float * num)
 {
-    fgets(str, LEN, fp);
-        if(str[strlen(str)-1] == '\n'){
-            str[strlen(str)-1] = '\0';
-        }
-    int i = sscanf(str, "%f", num);
-    return i;
+    if(fgets(str, LEN, fp) == NULL) return 0;
+    if(str[strlen(str)-1] == '\n'){
+        str[strlen(str)-1] = '\0';
+    }
+    return sscanf(str, "%f", num);
 }

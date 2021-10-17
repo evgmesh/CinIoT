@@ -10,7 +10,7 @@ int main(void)
     read_str("Enter file name, please: ", buffer, BFRSIZE);
     fstream = open_file(buffer, "rb");
     flen = file_size(fstream);
-    data = (uint8_t) malloc(flen);
+    data = (uint8_t*) malloc(flen);
     printf("%u\n", crc16(data, flen));
     free(data);
     fclose(fstream);

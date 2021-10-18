@@ -18,51 +18,48 @@ typedef enum { byGroup, byLastName, byFirstName } sort_order;
 void sort_students(student *students, int count, sort_order sb);
 
 
+
 int cmp_gr( const void *a, const void *b )
 {
     const student *one  = a;
     const student *two = b;
-
-    return ( two->group - one->group );
-//    return ( one->group > two->group ) - ( two->group > one->group );
+    return ( one->group - two->group );
 }
 int cmp_fnam( const void *a, const void *b )
 {
     const student *one  = a;
     const student *two = b;
-    const char s[2] = " ";
-    char *token; char *token2;
-    token = strtok(one->name, s);
-    token2 = strtok(two->name, s);
-    return strcmp(token, token2);
+    return strcmp(one->name, two->name);
 }
 int cmp_lnam( const void *a, const void *b )
 {
     const char s[2] = " ";
-    char *token; char *token2;
+    char *aa; char *bb;
     const student *one  = a;
     const student *two = b;
-    token = strtok(one->name, s);
-    token = strtok(NULL, s);
-    token2 = strtok(two->name, s);
-    token2 = strtok(NULL, s);
+    aa = strchr(one->name, ' ');
+    bb = strchr(two->name, ' ');
 
-    return strcmp(token, token2);
+    return strcmp(aa, bb);
 }
 
 void sort_students(student *students, int count, sort_order sb)
 {
     int size = 0;
-    for(; students[size].id == 0; size++);
+    for(; students[size].id != 0; size++);
     if(count<=0) count = size;
 
-    if(sb == byGroup)
+    if(sb == byGroup)  {
         qsort(students, count, sizeof(student), cmp_gr);
-    else if(sb == byLastName)
-        qsort(students, count, sizeof(student), cmp_fnam);
-    else if(sb == 2)
+    }
+    if(sb == byLastName)   {
         qsort(students, count, sizeof(student), cmp_lnam);
+    }
+    if(sb == byFirstName) {
+        qsort(students, count, sizeof(student), cmp_fnam);
+    }
 }
+
 
 int main(void)
 {

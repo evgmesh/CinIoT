@@ -15,6 +15,7 @@
         "rle unpack filename (decompresses the specified file)"
 #define PACK !strcmp(argv[1], "pack")
 #define UNPACK !strcmp(argv[1], "unpack")
+#define CRC !strcmp(argv[1], "crc")
 
 FILE * open_file(char *fname, char *mode);
 void read_str(const char *prompt, char *buffer, int size);

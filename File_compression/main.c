@@ -1,5 +1,16 @@
 #include "main.h"
+int fput16le(uint16_t rep, FILE *fp)
+{
 
+    int e1, e2;
+
+    e1 = fputc(rep & 0xFF, fp);
+    e2 = fputc((rep >> 8) & 0xFF, fp);
+
+    if(e1 == EOF || e2 == EOF)
+        return EOF;
+    return 0;
+}
 int main(int argc, char **argv)
 {
     FILE *fin = NULL, *fout = NULL;
@@ -13,10 +24,11 @@ int main(int argc, char **argv)
 
         fin = open_file(argv[2], "rb");
         originCRC = crc16(fin);
-        printf("crc of original is %X\n", originCRC);
         char *fname = strtok(argv[2], ".");
         fout = open_file(strcat(fname, ".rle"), "wb");
+        fprintf(fout,"%X\n", originCRC);
         rle_pack(fin, fout);
+        printf("Successfully packed\n");
         fclose(fin);
         fclose(fout);
 
@@ -25,9 +37,18 @@ int main(int argc, char **argv)
         fin = open_file(argv[2], "rb");
         char *fname = strtok(argv[2], ".");
         fout = open_file(strcat(fname, ".new"), "wb");
+        // skp first line;
+        fscanf(fin, "%*[^\n]\n");
         rle_unpack(fin, fout);
+        printf("Successfully unpacked\n");
         fclose(fin);
         fclose(fout);
+    } else if(CRC) {
+
+        fin = open_file(argv[2], "rb");
+        originCRC = crc16(fin);
+        printf("crc of file [%s] is %X\n", argv[2], originCRC);
+        fclose(fin);
     }
     else {
         fprintf(stderr, "%s: invalid comand: %s detected. "
@@ -41,7 +62,6 @@ int rle_pack(FILE *fin, FILE *fout)
 {
     int c, pc = ASCIIEND;
     unsigned char n = 0;
-
     while(1) {
         c = getc(fin);
         if (c == pc && n < ASCIIEND-1)
@@ -52,12 +72,13 @@ int rle_pack(FILE *fin, FILE *fout)
                 putc(pc, fout);
                 putc(n, fout);
             } else {
-                for(; n>0; n--) putc(pc, fout);
+                for(; n>0; n--)
+                    putc(pc, fout);
               }
 
             if (c == DELIM) {
-                putc(c, fout);
-                putc(c, fout);
+                for(int i = 0; i<2; i++)
+                    putc(c, fout);
                 n = 0;
                 pc = ASCIIEND;
                 continue;

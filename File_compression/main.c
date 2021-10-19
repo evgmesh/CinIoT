@@ -1,21 +1,15 @@
 #include "main.h"
-int fput16le(uint16_t rep, FILE *fp)
-{
 
-    int e1, e2;
+static FILE* logfile;
 
-    e1 = fputc(rep & 0xFF, fp);
-    e2 = fputc((rep >> 8) & 0xFF, fp);
 
-    if(e1 == EOF || e2 == EOF)
-        return EOF;
-    return 0;
-}
 int main(int argc, char **argv)
 {
-    FILE *fin = NULL, *fout = NULL;
+    FILE *fin, *fout;
     *argv = basename(*argv);
     uint16_t originCRC = 0;
+    char infname[BFRSIZE], outfname[BFRSIZE];
+    strcpy(infname, argv[2]);
     if(argc != 3) {
         fprintf(stderr, "%s: invalid number of arguments: %d detected. "
                     "Should be 2.\n%s\n", argv[0], argc-1, USE_MSG);
@@ -24,19 +18,22 @@ int main(int argc, char **argv)
 
         fin = open_file(argv[2], "rb");
         originCRC = crc16(fin);
-        char *fname = strtok(argv[2], ".");
-        fout = open_file(strcat(fname, ".rle"), "wb");
+        newfname(infname, outfname, ".rle");
+
+        fout = open_file(outfname, "wb");
+
         fprintf(fout,"%X\n", originCRC);
         rle_pack(fin, fout);
-        printf("Successfully packed\n");
+        MAKELOG;
         fclose(fin);
         fclose(fout);
 
     } else if(UNPACK) {
 
         fin = open_file(argv[2], "rb");
-        char *fname = strtok(argv[2], ".");
-        fout = open_file(strcat(fname, ".new"), "wb");
+        newfname(infname, outfname, ".new");
+
+        fout = open_file(outfname, "wb");
         // skp first line;
         fscanf(fin, "%*[^\n]\n");
         rle_unpack(fin, fout);
@@ -90,6 +87,7 @@ int rle_pack(FILE *fin, FILE *fout)
             }
         }
     }
+    fseek(fout, 0, SEEK_SET);
     return 0;
 }
 int rle_unpack(FILE *fin, FILE *fout)
@@ -157,4 +155,31 @@ int read_file(FILE *fp, uint8_t *data, long flen)
     int count = 0;
     count = fread(data, sizeof(uint8_t), flen, fp);
     return count;
+}
+void set_keijos_printf(FILE *fp, const char* filename)
+{
+    fp = fopen(filename, "a");
+}
+int keijos_printf(FILE *fp, const char* fmt, ...)
+{
+    va_list argptr;
+    int cnt = 0;
+    char pbuf[256];
+
+    va_start(argptr, fmt);
+    cnt = vsprintf(pbuf, fmt, argptr);
+    va_end(argptr);
+
+    fputs(pbuf, stdout);
+    if (logfile != NULL) {
+        fputs(pbuf, logfile);
+        fflush(logfile);
+    }
+    return(cnt);
+}
+void newfname(char* in, char* out, char * end)
+{
+    strtok(in, ".");
+    strcpy(out, in);
+    strcat(out, end);
 }

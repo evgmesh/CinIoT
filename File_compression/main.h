@@ -7,15 +7,20 @@
 #include <stdint.h>
 #include <libgen.h>
 
-#define BFRSIZE 500
+#define BFRSIZE 100
 #define ASCIIEND 0x100
 #define DELIM 0x80
 #define USE_MSG "Usage of the program:\n" \
         "rle pack filename (compresses the specified file)\n" \
         "rle unpack filename (decompresses the specified file)"
+        
 #define PACK !strcmp(argv[1], "pack")
 #define UNPACK !strcmp(argv[1], "unpack")
 #define CRC !strcmp(argv[1], "crc")
+#define MAKELOG set_keijos_printf(logfile,"log.txt");\
+        keijos_printf(logfile, "Original file: [%s], size: [%ld bytes], CRC: [%X]\n"\
+        "Compressed file: [%s], size: [%ld bytes]\n",\
+        argv[2], file_size(fin), originCRC, outfname, file_size(fout));
 
 FILE * open_file(char *fname, char *mode);
 void read_str(const char *prompt, char *buffer, int size);
@@ -25,3 +30,6 @@ long file_size(FILE *fp);
 int read_file(FILE *fp, uint8_t *data, long flen);
 int rle_pack(FILE *fin, FILE *fout) ;
 int rle_unpack(FILE *fin, FILE *fout);
+void set_keijos_printf(FILE *fp, const char* filename);
+int keijos_printf(FILE *fp, const char* fmt, ...);
+void newfname(char* in, char* out, char * end);

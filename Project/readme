@@ -1,0 +1,4 @@
+Usage of the program:
+./rle pack filename (compresses the specified file)
+./rle unpack filename (decompresses the specified file)
+./rle crc filename (print out of CRC of the specified file)

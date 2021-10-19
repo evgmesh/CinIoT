@@ -1,4 +1,4 @@
-#include "main.h"
+#include "rle.h"
 
 int main(int argc, char **argv)
 {
@@ -17,9 +17,7 @@ int main(int argc, char **argv)
         fin = open_file(argv[2], "rb");
         originCRC = crc16(fin);
         newfname(infname, outfname, ".rle");
-
         fout = open_file(outfname, "wb");
-
         fprintf(fout,"%X\n", originCRC);
         rle_pack(fin, fout);
         MAKELOG;
@@ -30,7 +28,6 @@ int main(int argc, char **argv)
 
         fin = open_file(argv[2], "rb");
         newfname(infname, outfname, ".new");
-
         fout = open_file(outfname, "wb");
         // skp first line;
         fscanf(fin, "%*[^\n]\n");

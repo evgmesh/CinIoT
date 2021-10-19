@@ -1,3 +1,5 @@
+/* Evgenii Meshcheriakov. Project File compression */
+
 #include "rle.h"
 
 int main(int argc, char **argv)
@@ -29,8 +31,7 @@ int main(int argc, char **argv)
         fin = open_file(argv[2], "rb");
         newfname(infname, outfname, ".new");
         fout = open_file(outfname, "wb");
-        // skp first line;
-        fscanf(fin, "%*[^\n]\n");
+        fscanf(fin, "%*[^\n]\n");           // skp first line;
         rle_unpack(fin, fout);
         fclose(fin);
         fclose(fout);

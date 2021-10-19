@@ -1,15 +1,13 @@
 #include "main.h"
 
-static FILE* logfile;
-
-
 int main(int argc, char **argv)
 {
-    FILE *fin, *fout;
+    FILE *fin, *fout, * logfile;
     *argv = basename(*argv);
     uint16_t originCRC = 0;
     char infname[BFRSIZE], outfname[BFRSIZE];
     strcpy(infname, argv[2]);
+
     if(argc != 3) {
         fprintf(stderr, "%s: invalid number of arguments: %d detected. "
                     "Should be 2.\n%s\n", argv[0], argc-1, USE_MSG);
@@ -37,9 +35,9 @@ int main(int argc, char **argv)
         // skp first line;
         fscanf(fin, "%*[^\n]\n");
         rle_unpack(fin, fout);
-        printf("Successfully unpacked\n");
         fclose(fin);
         fclose(fout);
+        printf("Successfully unpacked\n");
     } else if(CRC) {
 
         fin = open_file(argv[2], "rb");
@@ -156,11 +154,11 @@ int read_file(FILE *fp, uint8_t *data, long flen)
     count = fread(data, sizeof(uint8_t), flen, fp);
     return count;
 }
-void set_keijos_printf(FILE *fp, const char* filename)
+void set_keijos_printf(FILE **fp, const char* filename)
 {
-    fp = fopen(filename, "a");
+    *fp = fopen(filename, "a");
 }
-int keijos_printf(FILE *fp, const char* fmt, ...)
+int keijos_printf(FILE **fp, const char* fmt, ...)
 {
     va_list argptr;
     int cnt = 0;
@@ -171,9 +169,9 @@ int keijos_printf(FILE *fp, const char* fmt, ...)
     va_end(argptr);
 
     fputs(pbuf, stdout);
-    if (logfile != NULL) {
-        fputs(pbuf, logfile);
-        fflush(logfile);
+    if (*fp != NULL) {
+        fputs(pbuf, *fp);
+        fflush(*fp);
     }
     return(cnt);
 }

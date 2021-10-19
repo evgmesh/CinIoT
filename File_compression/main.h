@@ -13,7 +13,8 @@
 #define USE_MSG "Usage of the program:\n" \
         "rle pack filename (compresses the specified file)\n" \
         "rle unpack filename (decompresses the specified file)"
-
+#define PACK !strcmp(argv[1], "pack")
+#define UNPACK !strcmp(argv[1], "unpack")
 
 FILE * open_file(char *fname, char *mode);
 void read_str(const char *prompt, char *buffer, int size);

@@ -1,4 +1,4 @@
-C projects f
+C projects
 Global variables may not be used in any of the assignments.
 Write user friendly programs:
 • When user is requested to input a value, the program must clearly state what the user is expected to enter
@@ -25,26 +25,26 @@ View and edit files in hexadecimal mode. Saves log of changes in another file. A
 The editor must have at least the following commands:
 • Display content of the file. User gives offset from beginning of the file and program displays couple of lines of data (for example 4 rows, 16 bytes on each row) and displays data both in hexadecimal and text if possible (unprintable characters will print a dot). See example below. Note that you don’t need to have any graphics printing plain text is enough.
 • Command to change file contents (offset + new value(s)
-        • Command to save changes
-        • Command to apply previous change log to this file
-        To create a change log, save only commands that modify file content (command to make changes, save command)
-        3. Stock tracker
-        Write a program that keeps record of stock market trades. Program stores following information about each trade:
-           Description
-           Name of the company Number of shares
-           Purchase price of the shares Date of purchase
-           Sell price of the shares Date of sale
-           Type and/or size max. 80 characters int
-           float/double
-           string (or whatever type you think is appropriate)
-           float/double
-           string (or whatever type you think is appropriate)
-                         The program must have (at least) following operations:
-                         1. initialize (empty the database)
-                         2. save database to file
-                         3. read database from file
+• Command to save changes
+• Command to apply previous change log to this file
+To create a change log, save only commands that modify file content (command to make changes, save command)
+3. Stock tracker
+Write a program that keeps record of stock market trades. Program stores following information about each trade:
+   Description
+Name of the company Number of shares
+Purchase price of the shares Date of purchase
+Sell price of the shares Date of sale
+Type and/or size max. 80 characters int
+float/double
+string (or whatever type you think is appropriate)
+float/double
+string (or whatever type you think is appropriate)
+              The program must have (at least) following operations:
+1. initialize (empty the database)
+2. save database to file
+3. read database from file
 
-                         4. buy shares
+4. buy shares
 5. sell shares
 6. print a report which prints list of all shares that you still own followed by the total price of
 the shares.
@@ -78,20 +78,19 @@ Keeps a database of encrypted files. When user views a file check log to see if 
 6. Calendar
 The program must have (at least) following operations:
 1. initialize (empty the database)
-    2. save database to file
-    3. read database from file
-    4. add an event: user enters description, date, time and duration of an event
-       
-    5. remove an event
-    6. print a report which prints all events sorted by date and time
-    7. search for a free time in the range of dates that user specifies
-    7. File compression
-    Implement RLE-encoding/decoding of file. Write log of compression results (name, original size, CRC, compressed size, name of compressed file).
-    The encoding is based on encoding the multiple occurrences of the same byte with an encoding that saves number of repeating bytes instead of individual bytes. The encoding works as follows:
-    0x80 is a special character that indicates encoded sequence. It is immediately followed by the byte to repeat and number of repetitions. For example, a sequence of seven ‘T’s would be encoded as: 0x80 0x07 0x54. From this we can see that encoding sequences of less than three same characters increases the result file size instead of decreasing size.
-    Occurrence of 0x80 is always encoded regardless of the length. There is one exception in the encoding, when number of repetitions is set to zero it indicates a 0x80. A single 0x80 would be encoded as 0x80 0x00, two 0x80s would be encoded as 0x80 0x02 0x80 and three 0x80s as 0x80 0x03 0x80 and so on.
-    The encoded file must contain a small header that carries the CRC of the original file so that decompressed data can verified.
-    Usage of program:
-    rle pack filename (compresses the specified file)
-    rle unpack filename (decompresses the specified file)
+2. save database to file
+3. read database from file
+4. add an event: user enters description, date, time and duration of an event
 
+5. remove an event
+6. print a report which prints all events sorted by date and time
+7. search for a free time in the range of dates that user specifies
+7. File compression
+Implement RLE-encoding/decoding of file. Write log of compression results (name, original size, CRC, compressed size, name of compressed file).
+The encoding is based on encoding the multiple occurrences of the same byte with an encoding that saves number of repeating bytes instead of individual bytes. The encoding works as follows:
+0x80 is a special character that indicates encoded sequence. It is immediately followed by the byte to repeat and number of repetitions. For example, a sequence of seven ‘T’s would be encoded as: 0x80 0x07 0x54. From this we can see that encoding sequences of less than three same characters increases the result file size instead of decreasing size.
+Occurrence of 0x80 is always encoded regardless of the length. There is one exception in the encoding, when number of repetitions is set to zero it indicates a 0x80. A single 0x80 would be encoded as 0x80 0x00, two 0x80s would be encoded as 0x80 0x02 0x80 and three 0x80s as 0x80 0x03 0x80 and so on.
+The encoded file must contain a small header that carries the CRC of the original file so that decompressed data can verified.
+Usage of program:
+rle pack filename (compresses the specified file)
+rle unpack filename (decompresses the specified file)

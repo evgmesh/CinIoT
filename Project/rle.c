@@ -55,7 +55,7 @@ int rle_pack(FILE *fin, FILE *fout)
 {
     int c, pc = ASCIIEND;
     unsigned char n = 0;
-    while(1) {
+    do{
         c = getc(fin);
         if (c == pc && n < ASCIIEND-1)
             n++;
@@ -68,7 +68,6 @@ int rle_pack(FILE *fin, FILE *fout)
                 for(; n>0; n--)
                     putc(pc, fout);
               }
-
             if (c == DELIM) {
                 for(int i = 0; i<2; i++)
                     putc(c, fout);
@@ -82,7 +81,7 @@ int rle_pack(FILE *fin, FILE *fout)
                 pc = c;
             }
         }
-    }
+    } while(c != EOF);
     fseek(fout, 0, SEEK_SET);
     return 0;
 }

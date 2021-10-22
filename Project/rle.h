@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <libgen.h>
 
-#define BFRSIZE 100
+#define BFRSIZE 256
 #define ASCIIEND 0x100
 #define DELIM 0x80
 #define USE_MSG "Usage of the program:\n" \

@@ -8,7 +8,6 @@ int main(int argc, char **argv)
     *argv = basename(*argv);
     uint16_t originCRC = 0;
     char infname[BFRSIZE], outfname[BFRSIZE];
-    strcpy(infname, argv[2]);
 
     if(argc != 3) {
         fprintf(stderr, "%s: invalid number of arguments: %d detected. "
@@ -16,6 +15,7 @@ int main(int argc, char **argv)
         return (-1);
     } else if(PACK) {
 
+        strcpy(infname, argv[2]);
         fin = open_file(argv[2], "rb");
         originCRC = crc16(fin);
         newfname(infname, outfname, ".rle");
@@ -28,6 +28,7 @@ int main(int argc, char **argv)
 
     } else if(UNPACK) {
 
+        strcpy(infname, argv[2]);
         fin = open_file(argv[2], "rb");
         newfname(infname, outfname, ".new");
         fout = open_file(outfname, "wb");
@@ -45,7 +46,7 @@ int main(int argc, char **argv)
     }
     else {
         fprintf(stderr, "%s: invalid comand: %s detected. "
-                "Should be 2.\n%s\n", argv[0], argv[1], USE_MSG);
+                "\n%s\n", argv[0], argv[1], USE_MSG);
         return (-1);
     }
     return 0;
@@ -54,30 +55,30 @@ int main(int argc, char **argv)
 int rle_pack(FILE *fin, FILE *fout)
 {
     int c, pc = ASCIIEND;
-    unsigned char n = 0;
+    unsigned char cnt = 0;
     do{
         c = getc(fin);
-        if (c == pc && n < ASCIIEND-1)
-            n++;
+        if (c == pc && cnt < ASCIIEND-1)
+            cnt++;
         else {
-            if (n > 3) {
+            if (cnt > 3) {
                 putc(DELIM, fout);
                 putc(pc, fout);
-                putc(n, fout);
+                putc(cnt, fout);
             } else {
-                for(; n>0; n--)
+                for(; cnt>0; cnt--)
                     putc(pc, fout);
               }
             if (c == DELIM) {
                 for(int i = 0; i<2; i++)
                     putc(c, fout);
-                n = 0;
+                cnt = 0;
                 pc = ASCIIEND;
                 continue;
             } else if (c == EOF)
                 break;
             else {
-                n = 1;
+                cnt = 1;
                 pc = c;
             }
         }

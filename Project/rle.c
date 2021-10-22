@@ -157,7 +157,7 @@ int keijos_printf(FILE **fp, const char* fmt, ...)
 {
     va_list argptr;
     int cnt = 0;
-    char pbuf[256];
+    char pbuf[BFRSIZE];
 
     va_start(argptr, fmt);
     cnt = vsprintf(pbuf, fmt, argptr);

@@ -61,14 +61,11 @@ int rle_pack(FILE *fin, FILE *fout)
         if (c == pc && cnt < ASCIIEND-1)
             cnt++;
         else {
-            if (cnt > 3) {
+            if (cnt > 0) {
                 putc(DELIM, fout);
                 putc(pc, fout);
                 putc(cnt, fout);
-            } else {
-                for(; cnt>0; cnt--)
-                    putc(pc, fout);
-              }
+            }
             if (c == DELIM) {
                 for(int i = 0; i<2; i++)
                     putc(c, fout);

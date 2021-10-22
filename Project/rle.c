@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
         strcpy(infname, argv[2]);
         fin = open_file(argv[2], "rb");
-        newfname(infname, outfname, ".new");
+        newfname(infname, outfname, ".unpacked");
         fout = open_file(outfname, "wb");
         fscanf(fin, "%*[^\n]\n");           // skp first line;
         rle_unpack(fin, fout);

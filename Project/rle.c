@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 
 int rle_pack(FILE *fin, FILE *fout)
 {
-    int c, pc = ASCIIEND;
+    unsigned int c, pc = ASCIIEND;
     unsigned char cnt = 0;
     do{
         c = getc(fin);
@@ -65,12 +65,13 @@ int rle_pack(FILE *fin, FILE *fout)
                 putc(DELIM, fout);
                 putc(pc, fout);
                 putc(cnt, fout);
+                // printf("DELIM[%X], pc[%c:%X],cnt[%c]", DELIM, pc,pc, cnt);
             }
             if (c == DELIM) {
-                for(int i = 0; i<2; i++)
-                    putc(c, fout);
-                cnt = 0;
-                pc = ASCIIEND;
+                putc(c, fout);
+                putc(0, fout);
+                printf("\n\nsecond if: C[%X],cnt[%c]", c, cnt);
+                // pc = ASCIIEND;
                 continue;
             } else if (c == EOF)
                 break;

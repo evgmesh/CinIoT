@@ -1,0 +1,42 @@
+Original file:     ind.txt                size:      59 bytes   CRC:5367
+Compressed file:   ind.rle                size:      66 bytes
+
+Original file:     ine.txt                size:    1241 bytes   CRC:36B3
+Compressed file:   ine.rle                size:      32 bytes
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+
+Original file:     f                      size:      23 bytes   CRC:8623
+Compressed file:   f.rle                  size:      20 bytes       
+
+Original file:     ind.txt                size:      69 bytes   CRC:225A
+Compressed file:   ind.rle                size:     101 bytes       
+

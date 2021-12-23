@@ -61,17 +61,19 @@ int rle_pack(FILE *fin, FILE *fout)
         if (c == pc && cnt < ASCIIEND-1)
             cnt++;
         else {
-            if (cnt > 0) {
+            if (cnt > 3) {
                 putc(DELIM, fout);
                 putc(pc, fout);
                 putc(cnt, fout);
-                // printf("DELIM[%X], pc[%c:%X],cnt[%c]", DELIM, pc,pc, cnt);
+            } else {
+                for(; cnt>0; cnt--)
+                    putc(pc,fout);
             }
             if (c == DELIM) {
-                putc(c, fout);
-                putc(0, fout);
-                printf("\n\nsecond if: C[%X],cnt[%c]", c, cnt);
-                // pc = ASCIIEND;
+                for(int i = 0; i<2; i++)
+                    putc(c, fout);
+                cnt = 0;
+                pc = ASCIIEND;
                 continue;
             } else if (c == EOF)
                 break;
